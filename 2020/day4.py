@@ -5,9 +5,7 @@ import funs
 
 def is_valid(pp, prop, fun):
     if prop not in pp:
-        print(prop, '-', 'False')
         return False
-    print(prop, pp[prop], fun(pp[prop]))
     return fun(pp[prop])
 
 
