@@ -6,7 +6,6 @@ from itertools import *
 
 
 def go(data, nr):
-    print(type(data))
     for c in combinations(data, nr):
         if sum(c) == 2020:
             return f.reduce(lambda a, b: a * b, c)

@@ -1,13 +1,16 @@
 # Reusable functions
 import fileinput
 
+
 def nrs_from_file(f):
-    file = open(f, 'r')
-    return map(int, file.readlines())
+    # return map(int, open(f).readlines())
+    return [int(x) for x in open(f).readlines()]
+
 
 def lines_from_file(f):
-    file = open(f, 'r')
-    return map(str.rstrip, file.readlines())
+    # return map(str.rstrip, open(f).readlines())
+    return [x.rstrip() for x in open(f).readlines()]
+
 
 def nrs_from_input():
-    return map(str.rstrip, fileinput.input())
+    return [x.rstrip() for x in fileinput.input()]
