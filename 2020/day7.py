@@ -3,29 +3,22 @@ import funs
 # lines = funs.lines_from_file("7.intest")
 # lines = funs.lines_from_file("7.intest2")
 lines = funs.lines_from_file("7.in")
-# lines.append('')  # Add empty line if needed
 
 a1 = 0
 a2 = 0
-rem = []
-holders = []
-hash = {}
+bags = {}
 for line in lines:
     cont = line.split(' contain ')
-    y = []
-    if 'no other bags' in cont[1]:
-        pass
-    else:
-        for x in cont[1].split(', '):
-            splt = x.split(' ')
-            y.append([' '.join(splt[1:3]), int(splt[0])])
-    hash[' '.join(cont[0].split(' ')[:2])] = y
+    inner_bags = []
+    if 'no other bags' not in cont[1]:
+        inner_bags = list(map(lambda y: [y[1]+y[2], int(y[0])], [x.split(' ') for x in cont[1].split(', ')]))
+    bags[''.join(cont[0].split(' ')[:2])] = inner_bags
 
 found = set()
-search = {'shiny gold'}
+search = {'shinygold'}
 while len(search) > 0:
     new_search = set()
-    for k,v in hash.items():
+    for k, v in bags.items():
         for s in search:
             for vx in v:
                 if s in vx:
@@ -36,19 +29,18 @@ while len(search) > 0:
 a1 = len(found)
 
 
-def find_cnt(bag):
-    bags = hash[bag]
-    if len(bags) == 0:
-        return 1
+def nr_bags_in(bag):
+    contents = bags[bag]
+    if len(contents) == 0:
+        return 0
     else:
         cnt = 0
-        for b in bags:
-            cnt += b[1] * find_cnt(b[0])
-        return cnt + 1
+        for b in contents:
+            cnt += b[1] * (1 + nr_bags_in(b[0]))
+        return cnt
 
 
-curr = hash['shiny gold']
-a2 = find_cnt('shiny gold') - 1
+a2 = nr_bags_in('shinygold')
 
 print('Res 1:', a1)
 print('Res 2:', a2)
