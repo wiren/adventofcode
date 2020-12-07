@@ -24,6 +24,7 @@ def valid_hcl(h):
 
 # lines = funs.lines_from_file("4.intest")
 lines = funs.lines_from_file("4.in")
+lines.append('')
 
 passport = []
 passports = []
@@ -33,7 +34,6 @@ for l in lines:
         passport = []
     else:
         passport += [x.split(':') for x in l.split()]
-passports += [dict(passport)]
 
 cnt = 0
 for p in passports:
