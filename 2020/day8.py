@@ -26,18 +26,15 @@ def run_prg(prog):
 a1, p1 = run_prg(lines)
 a2 = 0
 
-alter = list(filter(lambda x: 'nop' or 'jmp' in x[1], enumerate(lines)))
+alter = [x for x in enumerate(lines) if(x[1].split(' ')[0] in ['jmp', 'nop'])]
+op_sw = {'nop': 'jmp ', 'jmp': 'nop '}
 for a in alter:
     newlines = lines.copy()
     op, arg = newlines[a[0]].split(' ')
-    if op == 'nop':
-        newlines[a[0]] = 'jmp ' + arg
-    else:
-        newlines[a[0]] = 'nop ' + arg
+    newlines[a[0]] = op_sw[op] + arg
 
-    res, p = run_prg(newlines)
+    a2, p = run_prg(newlines)
     if p == len(newlines):
-        a2 = res
         break
 
 print('Res 1:', a1)
