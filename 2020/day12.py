@@ -67,10 +67,8 @@ for l in ls:
         diff = n * np.array([0, -1])
     if m == 'E':
         diff = n * np.array([0, 1])
-    if m == 'L':
-        wp = turn(wp, 'L', n)
-    if m == 'R':
-        wp = turn(wp, 'R', n)
+    if m in ['L', 'R']:
+        wp = turn(wp, m, n)
     if m == 'F':
         pos = np.add(pos, n * wp)
     wp = wp + diff
