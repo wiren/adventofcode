@@ -1,8 +1,4 @@
-from functools import *
-from itertools import *
-from computer import *
 import funs
-import copy
 
 # ls = funs.lines_from_file("14.intest")
 # ls = funs.lines_from_file("14.intest2")
