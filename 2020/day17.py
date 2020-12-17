@@ -13,7 +13,7 @@ def neighs(neigh_offsets, c):
 def calc(dim):
     assert(dim >= 2)
     cube = {tuple([y, x] + [0]*(dim-2)) for y, row in enumerate(ls) for x, c in enumerate(row) if c == '#'}
-    neigh_offsets = set(product(*([[-1, 0, 1]] * dim))) - {tuple([0] * dim)}
+    neigh_offsets = set(product([-1, 0, 1], repeat=dim)) - {tuple([0] * dim)}
 
     for _ in range(6):
         seen = set()
