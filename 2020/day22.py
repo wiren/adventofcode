@@ -6,16 +6,14 @@ import copy
 ls = funs.lines_from_file("22.in")
 ls.append('')  # Add empty line if needed
 
-decks = []
-curr = []
-for l in ls:
-    if ':' in l:
+nr, decks = 0, [[], []]
+for line in ls:
+    if ':' in line:
         continue
-    if not l:
-        decks += [curr]
-        curr = []
+    if not line:
+        nr += 1
     else:
-        curr += [int(l)]
+        decks[nr] += [int(line)]
 
 
 def play(decks, recurse):
@@ -27,14 +25,11 @@ def play(decks, recurse):
         else:
             seen.add(key)
         draw = [decks[0].pop(0), decks[1].pop(0)]
-
         if recurse and all([c <= len(d) for c, d in zip(draw, decks)]):
             winner, _ = play([d[:c] for c, d in zip(draw, decks)], recurse)
         else:
             winner = 0 if draw[0] > draw[1] else 1
-
         decks[winner] += draw if winner == 0 else reversed(draw)
-
         if not all([d for d in decks]):
             return winner, decks[winner]
 
