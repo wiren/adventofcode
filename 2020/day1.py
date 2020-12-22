@@ -11,7 +11,7 @@ def go(data, nr):
             return f.reduce(lambda a, b: a * b, c)
 
 
-lines = list(funs.nrs_from_file('input1'))
+lines = list(funs.nrs_from_file('1.in'))
 
 print(go(lines, 2))
 print(go(lines, 3))

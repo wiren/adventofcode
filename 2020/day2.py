@@ -18,11 +18,11 @@ def pwd_valid2(pos1, pos2, ch, pwd):
 
 
 def count_valid(val_fun, rule_lst):
-    return sum(map(lambda r: 1 if val_fun(*r) else 0, rule_lst))
+    return sum(map(lambda r: val_fun(*r), rule_lst))
 
 
-# lines = funs.read_lines_from_file('testinput2')
-lines = funs.lines_from_file('input2')
+# lines = funs.read_lines_from_file('2.intest')
+lines = funs.lines_from_file('2.in')
 rules = list(map(parse_line, lines))
 
 print(count_valid(pwd_valid, rules))

@@ -14,7 +14,7 @@ def slope_trees(dx, dy):
     return cnt
 
 
-arr = list(funs.lines_from_file('input3'))
+arr = list(funs.lines_from_file('3.in'))
 
 print(slope_trees(3, 1))
 
