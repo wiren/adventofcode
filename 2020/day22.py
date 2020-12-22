@@ -20,6 +20,7 @@ for l in ls:
         curr += [int(l)]
 
 print(players)
+p2 = copy.copy(players)
 
 while all([p for p in players]):
     if players[0][0] > players[1][0]:
@@ -30,6 +31,7 @@ while all([p for p in players]):
         players[0] = players[0][1:]
 
 
+print(players)
 a1 = 0
 for i, c in enumerate(reversed(list(sorted(players))[1])):
     a1 += (i+1) * c
@@ -49,5 +51,45 @@ print('\nRes 1:', a1, '\n')
 # - Otherwise, at least one player must not have enough cards left in their deck to
 #   recurse; the winner of the round is the player with the higher-value card.
 
+players = p2
+
+x = 0
+def play(players):
+    seen = set()
+    while all([p for p in players]):
+        # print(players)
+        key = tuple(players[0]), tuple(players[1])
+        if key in seen:
+            # print('seen', key)
+            return 0, []
+        else:
+            seen.add(key)
+
+        c0 = players[0].pop(0)
+        c1 = players[1].pop(0)
+        winner = 0
+        if c0 <= len(players[0]) and c1 <= len(players[1]):
+            # print(1, [c0, c1])
+            deck = [players[0][:c0], players[1][:c1]]
+            winner, _ = play(deck)
+        else:
+            # print(3, [c0, c1])
+            if c0 < c1:
+                winner = 1
+        if winner == 0:
+            players[winner] += [c0, c1]
+        else:
+            players[winner] += [c1, c0]
+
+        if not players[0] or not players[1]:
+            return winner, []
+
+
+winner, rest = play(players)
+players[winner] += rest
+print('winner', winner, players)
+
 a2 = 0
+for i, c in enumerate(reversed(players[winner])):
+    a2 += (i+1) * c
 print('Res 2:', a2)
