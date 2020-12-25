@@ -4,60 +4,46 @@ import copy
 # ls = funs.lines_from_file("24.intest")
 ls = funs.lines_from_file("24.in")
 
-def move(input, start):
-    x, y = start
-    while input:
-        print(input)
-        if input.startswith('ne'):
-            y += 1
-            input = input[2:]
-        elif input.startswith('se'):
+
+def move(dirs, x, y):
+    while dirs:
+        d = dirs.pop(0)
+        if d == 'e':
             x += 1
-            y -= 1
-            input = input[2:]
-        elif input.startswith('sw'):
-            y -= 1
-            input = input[2:]
-        elif input.startswith('nw'):
+        elif d == 'w':
             x -= 1
-            y += 1
-            input = input[2:]
-        elif input.startswith('e'):
-            x += 1
-            input = input[1:]
-        elif input.startswith('w'):
-            x -= 1
-            input = input[1:]
+        elif d == 'n':
+            if dirs.pop(0) == 'e':
+                y += 1
+            else:
+                x, y = x-1, y+1
+        else:  # must be 's'
+            if dirs.pop(0) == 'e':
+                x, y = x+1, y-1
+            else:
+                y -= 1
     return x, y
 
 
-tiles = {}
-
-for l in ls:
-    coord = move(l, (0, 0))
-    print(coord)
-    if coord in tiles:
-        tiles[coord] = not tiles[coord]
-        print('found tile', coord, tiles[coord])
+black = set()
+for line in ls:
+    coord = move([x for x in line], 0, 0)
+    if coord in black:
+        black.remove(coord)
     else:
-        print('new tile', coord, False)
-        tiles[coord] = True
+        black.add(coord)
 
-a1 = sum(tiles.values())
-print('\nRes 1:', a1, '\n')
-
-adj = [(-1, 0), (-1, 1), (0, 1), (1, 0), (1, -1), (0, -1)]
+a1 = len(black)
+print('\nRes 1:', a1)
 
 
 def neighbors(x, y):
-    return [(x + c[0], y + c[1]) for c in adj]
+    return [(x + c[0], y + c[1]) for c in [(-1, 0), (-1, 1), (0, 1), (1, 0), (1, -1), (0, -1)]]
 
 
-black = set(map(lambda y: y[0], (filter(lambda x: x[1], tiles.items()))))
 for _ in range(100):
-    # print(black)
     nextblack = set()
-    search = copy.deepcopy(black)
+    search = copy.copy(black)
     for tile in black:
         for s in set(neighbors(*tile)):
             search.add(s)
